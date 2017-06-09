@@ -9,5 +9,23 @@ $(function() {
   // {api_key} Your API key
   var openMapLayerUrl = 'http://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}';
 
+  var AppViewModel = function() {
+
+    this.backgroundUrl = ko.observable(getRandomBackground());
+
+  };
+
+  function getRandomBackground(seasson) {
+    var list = ['winter', 'spring', 'summer', 'fall'];
+    var num = Math.floor(Math.random() * 3) + 1;
+
+    if (seasson === undefined) {
+      seasson = Math.floor(Math.random() * 4);
+    }
+
+    return 'img/' + list[seasson] + '-0' + num + '.jpg';
+  }
+
+  ko.applyBindings(new AppViewModel());
 
 });

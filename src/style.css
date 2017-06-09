@@ -12,7 +12,7 @@ main {
 .wallpaper {
   height: 100%;
   margin: 0 -15px;
-  background: url('img/summer-01.jpg') no-repeat;
-  background-size: cover;
+  background-repeat: no-repeat;
   background-position: center;
+  background-size: cover;
 }
