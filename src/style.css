@@ -1,0 +1,18 @@
+html,
+body,
+main {
+  height: 100%;
+}
+
+.main-row,
+.main-col {
+  height: 100%;
+}
+
+.wallpaper {
+  height: 100%;
+  margin: 0 -15px;
+  background: url('img/summer-01.jpg') no-repeat;
+  background-size: cover;
+  background-position: center;
+}
