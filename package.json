@@ -1,0 +1,27 @@
+{
+  "name": "FCC-local-weather",
+  "version": "1.0.0",
+  "description": "freeCodeCamp project",
+  "main": "src/index.html",
+  "author": "Alejandro Druetta <aledruetta@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "css": "csslint --ignore=order-alphabetical,box-model src/**.css",
+    "js": "jshint --reporter=node_modules/jshint-stylish src/**.js",
+    "w3c-src": "node_modules/w3cjs/bin/w3cjs validate src/index.html",
+    "w3c-dist": "node_modules/w3cjs/bin/w3cjs validate dist/index.html",
+    "lint": "yarn run css && yarn run js && yarn run w3c-src",
+    "inline": "htmlprocessor src/index.html -o dist/index-inline.html",
+    "minify": "html-minifier -c html-minifier.conf dist/index-inline.html -o dist/index.html && rm dist/index-inline.html",
+    "dist": "yarn run lint && yarn run inline && yarn run minify && yarn run w3c-dist"
+  },
+  "dependencies": {
+    "csslint": "^1.0.5",
+    "csslint-stylish": "^0.0.6",
+    "html-minifier": "^3.5.2",
+    "htmlprocessor": "^0.2.4",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1",
+    "w3cjs": "^0.3.0"
+  }
+}
