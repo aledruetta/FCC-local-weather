@@ -6,6 +6,7 @@ main {
 
 .main-row,
 .main-col {
+  background-color: black;
   height: 100%;
 }
 
