@@ -11,31 +11,34 @@ $(function() {
   var openMapLayerUrl = 'http://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}';
 
   var AppViewModel = function() {
-
     var self = this;
-    this.backgroundUrl = ko.observable('');
+
+    this.backgroundUrl = ko.observable(getRandomUrl());
 
     window.setInterval(function() {
-      var back = getRandomBackground();
-      self.backgroundUrl(back);
-    }, 7000);
+      self.backgroundUrl(getRandomUrl());
+    }, 3000);
   };
 
-  ko.bindingHandlers.fadeBackground = {
+  ko.bindingHandlers.toggleBackground = {
     update: function(element, valueAccessor) {
-      var url = ko.unwrap(valueAccessor());
-      var $div = $(element);
+      var $element = $(element);
+      var display = $element.css('display');
+      console.log(display);
+      var value = ko.unwrap(valueAccessor());
 
-      $div.fadeToggle(800, function() {
-        $div.css('background-image', 'url(' + url + ')');
-        $div.fadeToggle(800);
-      });
+      if (display === 'block') {
+        $element.fadeOut('slow');
+      } else {
+        $element.css('background-image', 'url(\'' + value + '\')');
+        $element.fadeIn('slow');
+      }
     }
   };
 
   ko.applyBindings(new AppViewModel());
 
-  function getRandomBackground(seasson) {
+  function getRandomUrl(seasson) {
     var list = ['winter', 'spring', 'summer', 'fall'];
     var num = Math.floor(Math.random() * 3) + 1;
 

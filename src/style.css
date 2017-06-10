@@ -10,10 +10,20 @@ main {
   height: 100%;
 }
 
+.main-col {
+  position: relative;
+}
+
 .wallpaper {
+  position: absolute;
+  width: 100%;
   height: 100%;
   margin: 0 -15px;
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
+}
+
+.wallpaper-front {
+  display: none;
 }
