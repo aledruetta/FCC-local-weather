@@ -15,9 +15,6 @@ $(function() {
 
     this.backgroundUrl = ko.observable(getRandomUrl());
 
-    window.setInterval(function() {
-      self.backgroundUrl(getRandomUrl());
-    }, 3000);
   };
 
   ko.bindingHandlers.toggleBackground = {
@@ -28,10 +25,10 @@ $(function() {
       var value = ko.unwrap(valueAccessor());
 
       if (display === 'block') {
-        $element.fadeOut('slow');
+        $element.fadeOut(800);
       } else {
         $element.css('background-image', 'url(\'' + value + '\')');
-        $element.fadeIn('slow');
+        $element.fadeIn(800);
       }
     }
   };
