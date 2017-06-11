@@ -2,6 +2,7 @@ html,
 body,
 main {
   height: 100%;
+  font-family: 'Nunito', sans-serif;
 }
 
 .main-row,
@@ -28,20 +29,20 @@ main {
   display: none;
 }
 
-.weather-shadow {
-  position: absolute;
-  width: 45%;
-  height: 100%;
-  margin: 0 -15px;
-  opacity: 0.5;
-  background-color: black;
-}
-
+.weather-shadow,
 .weather-wrapper {
   position: absolute;
   width: 45%;
   height: 100%;
   margin: 0 -15px;
+}
+
+.weather-shadow {
+  opacity: 0.5;
+  background-color: black;
+}
+
+.weather-wrapper {
   color: white;
   padding: 2em 1em;
 }
@@ -57,17 +58,36 @@ main {
   margin: 0 auto;
 }
 
-.weather-location {
-  font-size: 2em;
+.weather-push-right {
   margin: 0 auto;
 }
 
+.weather-location {
+  font-size: 2em;
+}
+
 .weather-location-details {
+  position: relative;
+  top: -0.5em;
   font-size: 0.5em;
 }
 
 .weather-temp {
-  display: flex;
-  margin: 1em auto;
   font-size: 2em;
+}
+
+@media screen and (min-width: 1024px) {
+  .weather-shadow,
+  .weather-wrapper {
+    width: 37%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .weather-icon {
+    font-size: 6em;
+  }
+  .weather-temp {
+    font-size: 2.2em;
+  }
 }
