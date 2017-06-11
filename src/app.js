@@ -21,7 +21,6 @@ $(function() {
     update: function(element, valueAccessor) {
       var $element = $(element);
       var display = $element.css('display');
-      console.log(display);
       var value = ko.unwrap(valueAccessor());
 
       if (display === 'block') {
