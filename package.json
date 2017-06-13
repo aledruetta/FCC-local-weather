@@ -12,9 +12,10 @@
     "w3c-dist": "node_modules/w3cjs/bin/w3cjs validate dist/index.html",
     "lint": "yarn run css && yarn run js && yarn run w3c-src",
     "images": "imagemin src/img/* -o dist/img",
+    "fonts": "cp -R src/font/* dist/font",
     "inline": "htmlprocessor src/index.html -o dist/index-inline.html",
     "minify": "html-minifier -c html-minifier.conf dist/index-inline.html -o dist/index.html && rm dist/index-inline.html",
-    "dist": "yarn run lint && yarn run inline && yarn run minify && yarn run images && yarn run w3c-dist"
+    "dist": "yarn run lint && yarn run fonts && yarn run inline && yarn run minify && yarn run images && yarn run w3c-dist"
   },
   "dependencies": {
     "csslint": "^1.0.5",
