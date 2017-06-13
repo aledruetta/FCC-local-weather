@@ -43,13 +43,20 @@ main {
 }
 
 .weather-wrapper {
+  display: flex;
+  flex-direction: column;
   color: white;
   padding: 2em 1em;
+}
+
+.grow {
+  flex-grow: 1;
 }
 
 .weather-header {
   display: flex;
   flex-wrap: wrap;
+  flex-grow: 1;
   width: 100%;
 }
 
@@ -74,6 +81,19 @@ main {
 
 .weather-temp {
   font-size: 2em;
+}
+
+.btn-group button {
+  font-size: 1.8em;
+  font-weight: bold;
+  width: 1.8em;
+  height: 1.8em;
+  border-radius: 50%;
+}
+
+.btn-group .active {
+  background-color: #333;
+  color: white;
 }
 
 @media screen and (min-width: 1024px) {

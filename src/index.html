@@ -15,8 +15,8 @@
 
     <!-- build:css inline -->
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/weather-icons.min.css">
-    <link rel="stylesheet" href="css/weather-icons-wind.min.css">
+    <link rel="stylesheet" href="css/weather-icons.css">
+    <link rel="stylesheet" href="css/weather-icons-wind.css">
     <!-- /build -->
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -36,28 +36,42 @@
           <div class="wallpaper wallpaper-front" data-bind="toggleBackground: backgroundUrl"></div>
           <div class="weather-shadow"></div>
           <div class="weather-wrapper">
-            <div class="weather-header">
-              <div class="weather-icon">
-                <i class="wi wi-day-cloudy-gusts"></i>
+            <div class="grow">
+              <div class="weather-header">
+
+                <div class="weather-icon">
+                  <i class="wi wi-day-cloudy-gusts"></i>
+                </div>
+
+                <div class="weather-push-right">
+
+                  <div class="weather-location">
+                    <div id="location">
+                      Ubatuba
+                    </div>
+                    <div class="weather-location-details" id="location-details">
+                      SP, Brazil
+                    </div>
+                  </div>
+
+                  <div class="weather-temp">
+                    <div class="weather-temp-inner">
+                      <i class="wi wi-thermometer"></i>
+                      <span id="temp">
+                        19
+                      </span>
+                      <i class="wi wi-celsius"></i>
+                    </div>
+                  </div>
+
+                </div>
               </div>
-              <div class="weather-push-right">
-                <div class="weather-location">
-                  <div id="location">
-                    Ubatuba
-                  </div>
-                  <div class="weather-location-details" id="location-details">
-                    SP, Brazil
-                  </div>
-                </div>
-                <div class="weather-temp">
-                  <div class="weather-temp-inner">
-                    <i class="wi wi-thermometer"></i>
-                    <span id="temp">
-                      19
-                    </span>
-                    <i class="wi wi-celsius"></i>
-                  </div>
-                </div>
+            </div>
+
+            <div class="switch-unit text-center">
+              <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-default active"><i class="wi wi-celsius"></i></button>
+                <button type="button" class="btn btn-default"><i class="wi wi-fahrenheit"></i></button>
               </div>
             </div>
           </div>

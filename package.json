@@ -6,7 +6,7 @@
   "author": "Alejandro Druetta <aledruetta@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "css": "csslint --ignore=order-alphabetical,box-model src/**.css",
+    "css": "csslint --ignore=order-alphabetical,box-model src/css/**.css",
     "js": "jshint --reporter=node_modules/jshint-stylish src/**.js",
     "w3c-src": "node_modules/w3cjs/bin/w3cjs validate src/index.html",
     "w3c-dist": "node_modules/w3cjs/bin/w3cjs validate dist/index.html",
