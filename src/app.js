@@ -19,8 +19,6 @@ $(function() {
     this.detailsPosition = ko.observable('SP, Brazil');
     this.temp = ko.observable(19);
     this.unit = ko.observable('celsius');
-    this.unitClass = ko.observable('wi wi-celsius');
-
   };
 
   ko.bindingHandlers.toggleBackground = {
