@@ -2,13 +2,13 @@ $(function() {
   "use strict";
 
   var openMapApiKey = 'b09e2b4e361fecae02a85343a8398e5c';
-  var openMapWeatherUrl = 'https://crossorigin.me/http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}';
+  var openMapWeatherUrl = 'https://cors-anywhere.herokuapp.com/http://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={api_key}';
   // {layer} layer name
   // {z} number of zoom level
   // {x} number of x tile coordinate
   // {y} number of y tile coordinate
   // {api_key} Your API key
-  var openMapLayerUrl = 'https://crossorigin.me/http://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}';
+  var openMapLayerUrl = 'https://cors-anywhere.herokuapp.com/http://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}';
 
   var getWeather = new Promise(function(resolve, reject) {
     if ('geolocation' in navigator) {
