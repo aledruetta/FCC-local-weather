@@ -10,18 +10,49 @@ $(function() {
   // {api_key} Your API key
   var openMapLayerUrl = 'http://tile.openweathermap.org/map/{layer}/{z}/{x}/{y}.png?appid={api_key}';
 
-  var weather = getWeather();
-  console.log(weather);
+  var getWeather = new Promise(function(resolve, reject) {
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var weather = {};
+        var coord = {lat: position.coords.latitude, lon: position.coords.longitude};
+        var url = openMapWeatherUrl
+          .replace(/{api_key}/, openMapApiKey)
+          .replace(/{lat}/, coord.lat)
+          .replace(/{lon}/, coord.lon);
+
+        $.getJSON(url, function(data) {
+          weather.city = data.name;
+          weather.country = data.sys.country;
+          weather.temp = data.main.temp;
+          weather.temp_min = data.main.temp_min;
+          weather.temp_max = data.main.temp_max;
+          weather.humidity = data.main.humidity;
+          weather.pressure = data.main.pressure;
+          weather.wind = data.wind;
+          weather.clouds = data.clouds.all;
+          resolve(weather);
+        });
+      });
+    } else {
+      reject('Geolocation is not enabled');
+    }
+  });
 
   var AppViewModel = function() {
     var self = this;
 
     this.backgroundUrl = ko.observable(getRandomUrl());
     this.weatherIcon = ko.observable('wi wi-day-cloudy-gusts');
-    this.cityPosition = ko.observable('Ubatuba');
+    this.cityName = ko.observable('');
     this.detailsPosition = ko.observable('SP, Brazil');
-    this.temp = ko.observable(19);
-    this.unit = ko.observable('celsius');
+    this.temp = ko.observable('');
+    this.unit = ko.observable('fahrenheit');
+
+    getWeather.then(function(weather) {
+      console.log(JSON.stringify(weather));
+      self.cityName(weather.city);
+      self.temp(weather.temp);
+    });
   };
 
   ko.bindingHandlers.toggleBackground = {
@@ -50,36 +81,5 @@ $(function() {
     }
 
     return 'img/' + list[seasson] + '-0' + num + '.jpg';
-  }
-
-  function getWeather() {
-    return new Promise(function(resolve, reject) {
-      if ('geolocation' in navigator) {
-        var weather = {};
-
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var coord = {lat: position.coords.latitude, lon: position.coords.longitude};
-          var url = openMapWeatherUrl
-            .replace(/{api_key}/, openMapApiKey)
-            .replace(/{lat}/, coord.lat)
-            .replace(/{lon}/, coord.lon);
-
-          weather.json = $.getJSON(url, function(data) {
-            weather.city = data.name;
-            weather.country = data.sys.country;
-            weather.temp = data.main.temp;
-            weather.temp_min = data.main.temp_min;
-            weather.temp_max = data.main.temp_max;
-            weather.humidity = data.main.humidity;
-            weather.pressure = data.main.pressure;
-            weather.wind = data.wind;
-            weather.clouds = data.clouds.all;
-            resolve(weather);
-          });
-        });
-      } else {
-        reject('Geolocation is not enabled');
-      }
-    });
   }
 });
