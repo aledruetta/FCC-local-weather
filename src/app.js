@@ -12,13 +12,15 @@ $(function() {
     // Observables
     this.backgroundUrl = ko.observable(getRandomUrl());
     this.weatherIcon = ko.observable('wi wi-day-cloudy-gusts');
-    this.cityName = ko.observable('');
-    this.detailsPosition = ko.observable('');
-    this.temp = ko.observable('');
+    this.cityName = ko.observable('City');
+    this.detailsPosition = ko.observable('Region, Country');
+    this.temp = ko.observable('Temp');
     this.unit = ko.observable('celsius');
 
     promise.then(function(weather) {
       console.log(JSON.stringify(weather));
+
+      self.backgroundUrl(selectBackground(weather.temp_c));
       self.cityName(weather.city);
       self.detailsPosition(weather.region + ', ' + weather.country);
 
@@ -52,10 +54,27 @@ $(function() {
     var num = Math.floor(Math.random() * 3) + 1;
 
     if (seasson === undefined) {
-      seasson = Math.floor(Math.random() * 4);
+      var index = Math.floor(Math.random() * 4);
+      seasson = list[index];
     }
 
-    return 'img/' + list[seasson] + '-0' + num + '.jpg';
+    return 'img/' + seasson + '-0' + num + '.jpg';
+  }
+
+  function selectBackground(temp) {
+    var seasson = '';
+
+    if (temp < 5) {
+      seasson = 'winter';
+    } else if (temp < 15) {
+      seasson = 'fall';
+    } else if (temp < 25) {
+      seasson = 'spring';
+    } else {
+      seasson = 'summer';
+    }
+
+    return getRandomUrl(seasson);
   }
 
   function getWeather() {
