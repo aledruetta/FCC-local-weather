@@ -57,13 +57,13 @@ $(function() {
     this.cityName = ko.observable('');
     this.detailsPosition = ko.observable('');
     this.temp = ko.observable('');
-    this.unit = ko.observable('fahrenheit');
+    this.unit = ko.observable('celsius');
 
     getWeather.then(function(weather) {
       console.log(JSON.stringify(weather));
       self.cityName(weather.city);
       self.detailsPosition(weather.region + ', ' + weather.country);
-      if (self.unit === 'celsius') {
+      if (self.unit('celsius')) {
         self.temp(weather.temp_c);
       } else {
         self.temp(weather.temp_f);
