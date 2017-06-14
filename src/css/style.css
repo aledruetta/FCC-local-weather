@@ -81,6 +81,7 @@ main {
 
 .weather-temp {
   font-size: 2em;
+  margin-top: 0.5em;
 }
 
 .btn-group button {

@@ -3,6 +3,7 @@ $(function() {
 
   var apixuKey = '91f999f0561d4d7a9b3155126171406';
   var apixuUrl = 'https://api.apixu.com/v1/current.json?key={key}&q={lat},{lon}';
+  var weather = {};
 
   // ViewModel
   var AppViewModel = function() {
@@ -10,21 +11,32 @@ $(function() {
     var promise = getWeather();
 
     // Observables
-    this.backgroundUrl = ko.observable(getRandomUrl());
+    this.backgroundUrl = ko.observable('');
     this.weatherIcon = ko.observable('wi wi-day-cloudy-gusts');
     this.cityName = ko.observable('City');
     this.detailsPosition = ko.observable('Region, Country');
     this.temp = ko.observable('Temp');
     this.unit = ko.observable('celsius');
 
-    promise.then(function(weather) {
-      console.log(JSON.stringify(weather));
+    this.toggleUnit = function() {
+      if (this.unit() === 'celsius') {
+        this.unit('fahrenheit');
+        this.temp(weather.temp_f);
+      } else {
+        this.unit('celsius');
+        this.temp(weather.temp_c);
+      }
+    };
 
+    promise.then(function(json) {
+      console.log(JSON.stringify(json));
+
+      weather = json;
       self.backgroundUrl(selectBackground(weather.temp_c));
       self.cityName(weather.city);
       self.detailsPosition(weather.region + ', ' + weather.country);
 
-      if (self.unit('celsius')) {
+      if (self.unit() === 'celsius') {
         self.temp(weather.temp_c);
       } else {
         self.temp(weather.temp_f);
@@ -38,11 +50,13 @@ $(function() {
       var display = $element.css('display');
       var value = ko.unwrap(valueAccessor());
 
-      if (display === 'block') {
-        $element.fadeOut(800);
-      } else {
-        $element.css('background-image', 'url(\'' + value + '\')');
-        $element.fadeIn(800);
+      if (value) {
+        if (display === 'block') {
+          $element.fadeOut(800);
+        } else {
+          $element.css('background-image', 'url(\'' + value + '\')');
+          $element.fadeIn(800);
+        }
       }
     }
   };
