@@ -14,6 +14,12 @@ $(function() {
     var self = this;
 
     this.backgroundUrl = ko.observable(getRandomUrl());
+    this.weatherIcon = ko.observable('wi wi-day-cloudy-gusts');
+    this.cityPosition = ko.observable('Ubatuba');
+    this.detailsPosition = ko.observable('SP, Brazil');
+    this.temp = ko.observable(19);
+    this.unit = ko.observable('celsius');
+    this.unitClass = ko.observable('wi wi-celsius');
 
   };
 

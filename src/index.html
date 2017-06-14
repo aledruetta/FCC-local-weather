@@ -16,7 +16,7 @@
     <!-- build:css inline -->
     <link rel="stylesheet" href="css/style.css">
     <!-- /build -->
-    
+
     <link rel="stylesheet" href="css/weather-icons.css">
     <link rel="stylesheet" href="css/weather-icons-wind.css">
 
@@ -41,27 +41,22 @@
               <div class="weather-header">
 
                 <div class="weather-icon">
-                  <i class="wi wi-day-cloudy-gusts"></i>
+                  <i data-bind="attr: { class: weatherIcon }"></i>
                 </div>
 
                 <div class="weather-push-right">
 
                   <div class="weather-location">
-                    <div id="location">
-                      Ubatuba
-                    </div>
-                    <div class="weather-location-details" id="location-details">
-                      SP, Brazil
-                    </div>
+                    <div id="location" data-bind="text: cityPosition"></div>
+                    <div class="weather-location-details" id="location-details"
+                      data-bind="text: detailsPosition"></div>
                   </div>
 
                   <div class="weather-temp">
                     <div class="weather-temp-inner">
                       <i class="wi wi-thermometer"></i>
-                      <span id="temp">
-                        19
-                      </span>
-                      <i class="wi wi-celsius"></i>
+                      <span id="temp" data-bind="text: temp"></span>
+                      <i data-bind="css: unit() == 'celsius' ? 'wi wi-celsius' : 'wi wi-fahrenheit'"></i>
                     </div>
                   </div>
 
@@ -71,8 +66,8 @@
 
             <div class="switch-unit text-center">
               <div class="btn-group" role="group" aria-label="...">
-                <button type="button" class="btn btn-default active"><i class="wi wi-celsius"></i></button>
-                <button type="button" class="btn btn-default"><i class="wi wi-fahrenheit"></i></button>
+                <button type="button" class="btn btn-default" data-bind="css: { active: unit() == 'celsius' }"><i class="wi wi-celsius"></i></button>
+                <button type="button" class="btn btn-default" data-bind="css: { active: unit() == 'fahrenheit' }"><i class="wi wi-fahrenheit"></i></button>
               </div>
             </div>
           </div>
