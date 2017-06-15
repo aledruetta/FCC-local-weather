@@ -11,13 +11,14 @@ $(function() {
     var promise = getWeather();
 
     // Observables
-    this.backgroundUrl = ko.observable('');
+    this.backgroundUrl = ko.observable(getRandomUrl());
     this.weatherIcon = ko.observable('wi wi-day-cloudy-gusts');
     this.cityName = ko.observable('City');
     this.detailsPosition = ko.observable('Region, Country');
     this.temp = ko.observable('Temp');
     this.unit = ko.observable('celsius');
 
+    // Switching celsius/fahrenheit
     this.toggleUnit = function() {
       if (this.unit() === 'celsius') {
         this.unit('fahrenheit');
@@ -41,6 +42,8 @@ $(function() {
       } else {
         self.temp(weather.temp_f);
       }
+    }).catch(function(reason) {
+      alert(reason);
     });
   };
 
@@ -94,6 +97,10 @@ $(function() {
   function getWeather() {
     return new Promise(function(resolve, reject) {
       if ('geolocation' in navigator) {
+        
+        console.log('Gelocation enabled.');
+
+        // getCurrentPosition options
         var options = {
           enableHighAccuracy: true,
           timeout: 5000,
@@ -101,10 +108,12 @@ $(function() {
         };
 
         navigator.geolocation.getCurrentPosition(success, error, options);
+
       } else {
         reject(Error('Geolocation is not enabled'));
       }
 
+      // getCurrentPosition success callback
       function success(position) {
         var json = {};
         var coord = {lat: position.coords.latitude, lon: position.coords.longitude};
@@ -113,6 +122,7 @@ $(function() {
         .replace(/{lat}/, coord.lat)
         .replace(/{lon}/, coord.lon);
 
+        // get weather json API data
         $.getJSON(url, function(data) {
           console.log(data);
 
@@ -130,11 +140,17 @@ $(function() {
           json.clouds = data.current.cloud;
 
           resolve(json);
+
+        // getJSON API fail
+        }).fail(function() {
+          reject('Apiux isn\'t responding now.');
         });
       }
 
+      // getCurrentPosition error callback
       function error(err) {
-        console.warn('Warn: error', err.code, err.message);
+        console.warn('error ' + err.code + ', ' + err.message);
+        reject('Wasn\'t possible get the geographic possition.');
       }
     });
   }
