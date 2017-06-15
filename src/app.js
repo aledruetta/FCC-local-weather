@@ -97,14 +97,14 @@ $(function() {
   function getWeather() {
     return new Promise(function(resolve, reject) {
       if ('geolocation' in navigator) {
-        
+
         console.log('Gelocation enabled.');
 
         // getCurrentPosition options
         var options = {
           enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0
+          timeout: 30000,
+          maximumAge: 600000
         };
 
         navigator.geolocation.getCurrentPosition(success, error, options);
@@ -116,11 +116,10 @@ $(function() {
       // getCurrentPosition success callback
       function success(position) {
         var json = {};
-        var coord = {lat: position.coords.latitude, lon: position.coords.longitude};
         var url = apixuUrl
         .replace(/{key}/, apixuKey)
-        .replace(/{lat}/, coord.lat)
-        .replace(/{lon}/, coord.lon);
+        .replace(/{lat}/, position.coords.latitude)
+        .replace(/{lon}/, position.coords.longitude);
 
         // get weather json API data
         $.getJSON(url, function(data) {
@@ -143,14 +142,14 @@ $(function() {
 
         // getJSON API fail
         }).fail(function() {
-          reject('Apiux isn\'t responding now.');
+          reject('Apiux API isn\'t responding now.');
         });
       }
 
       // getCurrentPosition error callback
       function error(err) {
         console.warn('error ' + err.code + ', ' + err.message);
-        reject('Wasn\'t possible get the geographic possition.');
+        reject('Wasn\'t possible get the geographic possition now.');
       }
     });
   }
