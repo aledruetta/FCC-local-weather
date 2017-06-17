@@ -137,6 +137,9 @@ $(function() {
           json.wind_kph = data.current.wind_kph;
           json.wind_dir = data.current.wind_dir;
           json.clouds = data.current.cloud;
+          json.conditionCode = data.condition.code;
+          json.conditionText = data.condition.text;
+          json.isDay = data.is_day;
 
           resolve(json);
 
@@ -152,5 +155,28 @@ $(function() {
         reject('Wasn\'t possible get the geographic possition now.');
       }
     });
+  }
+
+  function storageAvailable(type) {
+    try {
+      var storage = window[type],
+        x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    } catch (e) {
+      return e instanceof DOMException && (
+        // everything except Firefox
+        e.code === 22 ||
+        // Firefox
+        e.code === 1014 ||
+        // test name field too, because code might not be present
+        // everything except Firefox
+        e.name === 'QuotaExceededError' ||
+        // Firefox
+        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+        // acknowledge QuotaExceededError only if there's something already stored
+        storage.length !== 0;
+    }
   }
 });
