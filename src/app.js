@@ -40,9 +40,9 @@ $(function() {
       }
 
       function fade($in, $out) {
-        $in.css('background-image', 'url(' + selectBackground(self.temp) + ')');
+        $in.css('background-image', 'url(' + selectBackground(self.temp(), self.unit()) + ')');
         while($in.css('background-image') === $out.css('background-image')) {
-          $in.css('background-image', 'url(' + selectBackground(self.temp) + ')');
+          $in.css('background-image', 'url(' + selectBackground(self.temp(), self.unit()) + ')');
         }
         $in.fadeIn(800, function() {
           $out.fadeOut(800);
@@ -55,7 +55,6 @@ $(function() {
       weather = json;
       console.dir(weather);
 
-      self.toggleBackground();
       self.cityName(weather.city);
       self.detailsPosition(weather.region + ', ' + weather.country);
 
@@ -64,6 +63,7 @@ $(function() {
       } else {
         self.temp(weather.temp_f);
       }
+      self.toggleBackground();
     }).catch(function(reason) {
       alert(reason);
     });
@@ -143,14 +143,14 @@ $(function() {
     return 'img/' + season + '-0' + num + ((window.innerWidth < 768) ? 'm' : '') + '.jpg';
   }
 
-  function selectBackground(temp) {
+  function selectBackground(temp, unit) {
     var season = '';
 
-    if (temp < 5) {
+    if (temp < 5 && unit === 'celsius' || temp < 41 && unit === 'fahrenheit') {
       season = 'winter';
-    } else if (temp < 15) {
+    } else if (temp < 15 && unit === 'celsius' || temp < 59 && unit === 'fahrenheit') {
       season = 'fall';
-    } else if (temp < 25) {
+    } else if (temp < 25 && unit === 'celsius' || temp < 77 && unit === 'fahrenheit') {
       season = 'spring';
     } else {
       season = 'summer';
