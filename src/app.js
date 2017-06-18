@@ -8,7 +8,7 @@ $(function() {
   // ViewModel
   var AppViewModel = function() {
     var self = this;
-    var promise = getWeather();
+    var weatherPromise = getWeather();
 
     // Observables
     this.backgroundUrl = ko.observable(getRandomUrl());
@@ -29,7 +29,7 @@ $(function() {
       }
     };
 
-    promise.then(function(json) {
+    weatherPromise.then(function(json) {
       console.log(JSON.stringify(json));
 
       weather = json;
@@ -116,37 +116,61 @@ $(function() {
       // getCurrentPosition success callback
       function success(position) {
         var json = {};
-        var url = apixuUrl
-        .replace(/{key}/, apixuKey)
-        .replace(/{lat}/, position.coords.latitude)
-        .replace(/{lon}/, position.coords.longitude);
+        var last = 0,
+            now = Date.now();
 
-        // get weather json API data
-        $.getJSON(url, function(data) {
-          console.log(data);
+        if (storageAvailable('sessionStorage')) {
+          last = window.sessionStorage.getItem('fccLocal.now');
+        }
 
-          json.city = data.location.name;
-          json.country = data.location.country;
-          json.region = data.location.region;
-          json.temp_c = data.current.temp_c;
-          json.temp_f = data.current.temp_f;
-          json.humidity = data.current.humidity;
-          json.precip = data.current.precip_mm;
-          json.pressure = data.current.pressure_mb;
-          json.visibility = data.current.vis_mk;
-          json.wind_kph = data.current.wind_kph;
-          json.wind_dir = data.current.wind_dir;
-          json.clouds = data.current.cloud;
-          json.conditionCode = data.condition.code;
-          json.conditionText = data.condition.text;
-          json.isDay = data.is_day;
+        // 10 minutes
+        console.log('Last API call: ' + ((now - last) / 60000).toPrecision(3) + ' minutes');
 
+        if ((now - last) > 600000) {
+          var url = apixuUrl
+            .replace(/{key}/, apixuKey)
+            .replace(/{lat}/, position.coords.latitude)
+            .replace(/{lon}/, position.coords.longitude);
+
+          // get weather json API data
+          $.getJSON(url, function(data) {
+            console.log(data);
+
+            json.now = Date.now();
+            json.lat = position.coords.latitude;
+            json.long = position.coords.longitude;
+            json.city = data.location.name;
+            json.country = data.location.country;
+            json.region = data.location.region;
+            json.temp_c = data.current.temp_c;
+            json.temp_f = data.current.temp_f;
+            json.humidity = data.current.humidity;
+            json.precip = data.current.precip_mm;
+            json.pressure = data.current.pressure_mb;
+            json.visibility = data.current.vis_mk;
+            json.wind_kph = data.current.wind_kph;
+            json.wind_dir = data.current.wind_dir;
+            json.clouds = data.current.cloud;
+            json.conditionCode = data.current.condition.code;
+            json.conditionText = data.current.condition.text;
+            json.isDay = data.is_day;
+
+            if (storageAvailable('sessionStorage')) {
+              saveWeather(json);
+            }
+
+            resolve(json);
+
+          }).fail(function() {
+            // getJSON API fail
+            reject('Apiux API isn\'t responding now.');
+          });
+
+        } else {
+          // get session storage
+          json = loadWeather();
           resolve(json);
-
-        // getJSON API fail
-        }).fail(function() {
-          reject('Apiux API isn\'t responding now.');
-        });
+        }
       }
 
       // getCurrentPosition error callback
@@ -178,5 +202,28 @@ $(function() {
         // acknowledge QuotaExceededError only if there's something already stored
         storage.length !== 0;
     }
+  }
+
+  function saveWeather(json) {
+    console.log('Save session storage');
+    var storage = window.sessionStorage;
+
+    for (var prop in json) {
+      storage.setItem('fccLocal.' + prop, json[prop]);
+    }
+  }
+
+  function loadWeather() {
+    console.log('Load session storage');
+    var storage = window.sessionStorage;
+    var json = {};
+
+    for (var prop in storage) {
+      if (prop.startsWith('fccLocal.')) {
+        json[prop.substring(9)] = storage.getItem(prop);
+      }
+    }
+
+    return json;
   }
 });
