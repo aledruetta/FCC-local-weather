@@ -147,13 +147,13 @@ $(function() {
             json.humidity = data.current.humidity;
             json.precip = data.current.precip_mm;
             json.pressure = data.current.pressure_mb;
-            json.visibility = data.current.vis_mk;
+            json.vis_km = data.current.vis_km;
             json.wind_kph = data.current.wind_kph;
             json.wind_dir = data.current.wind_dir;
             json.clouds = data.current.cloud;
             json.conditionCode = data.current.condition.code;
             json.conditionText = data.current.condition.text;
-            json.isDay = data.is_day;
+            json.is_day = data.current.is_day;
 
             if (storageAvailable('sessionStorage')) {
               saveWeather(json);
