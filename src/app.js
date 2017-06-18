@@ -11,8 +11,6 @@ $(function() {
     var weatherPromise = getWeather();
 
     // Observables
-    this.backUrl = ko.observable(getRandomUrl());
-    this.frontUrl = ko.observable('');
     this.weatherIcon = ko.observable('wi wi-day-cloudy-gusts');
     this.cityName = ko.observable('City');
     this.detailsPosition = ko.observable('Region, Country');
@@ -21,6 +19,7 @@ $(function() {
 
     // Switching celsius/fahrenheit
     this.toggleUnit = function() {
+      this.toggleBackground();
       if (this.unit() === 'celsius') {
         this.unit('fahrenheit');
         this.temp(weather.temp_f);
@@ -31,8 +30,25 @@ $(function() {
     };
 
     this.toggleBackground = function() {
-      self.backUrl(self.backUrl() === '' ? selectBackground(self.temp()) : '');
-      self.frontUrl(self.frontUrl() === '' ? selectBackground(self.temp()) : '');
+      var $back = $('.wallpaper-back');
+      var $front = $('.wallpaper-front');
+
+      if ($front.css('display') === 'block') {
+        fade($back, $front);
+      } else if($front.css('display') === 'none') {
+        fade($front, $back);
+      }
+
+      function fade($in, $out) {
+        $in.css('background-image', 'url(' + selectBackground(self.temp) + ')');
+        while($in.css('background-image') === $out.css('background-image')) {
+          $in.css('background-image', 'url(' + selectBackground(self.temp) + ')');
+        }
+        $in.fadeIn(800, function() {
+          $out.fadeOut(800);
+        });
+
+      }
     };
 
     weatherPromise.then(function(json) {
@@ -51,23 +67,6 @@ $(function() {
     }).catch(function(reason) {
       alert(reason);
     });
-  };
-
-  ko.bindingHandlers.toggleBackground = {
-    update: function(element, valueAccessor) {
-      var $element = $(element);
-      var display = $element.css('display');
-      var value = ko.unwrap(valueAccessor());
-
-      if (value) {
-        if (display === 'block') {
-          $element.fadeOut(800);
-        } else {
-          $element.css('background-image', 'url(\'' + value + '\')');
-          $element.fadeIn(800);
-        }
-      }
-    }
   };
 
   ko.applyBindings(new AppViewModel());
