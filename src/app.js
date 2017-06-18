@@ -52,9 +52,9 @@ $(function() {
     };
 
     weatherPromise.then(function(json) {
-      console.dir(json);
-
       weather = json;
+      console.dir(weather);
+
       self.toggleBackground();
       self.cityName(weather.city);
       self.detailsPosition(weather.region + ', ' + weather.country);
@@ -69,39 +69,94 @@ $(function() {
     });
   };
 
+  // Applying ViewModel bindings
   ko.applyBindings(new AppViewModel());
 
-  function getRandomUrl(seasson) {
+  // Storage manage object
+  var storage = (function() {
+    var prefix = 'fccLocal.';
+
+    return {
+      isAvailable: function(type) {
+        var st,
+            x = '__storage_test__';
+
+        try {
+          st = window[type];
+          st.setItem(x, x);
+          st.removeItem(x);
+
+          return true;
+
+        } catch (e) {
+
+          return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            st.length !== 0;
+        }
+      },
+
+      save: function(json) {
+        console.log('Saving session storage...');
+        var st = window.sessionStorage;
+
+        for (var prop in json) {
+          st.setItem(prefix + prop, json[prop]);
+        }
+      },
+
+      load: function() {
+        console.log('Loading session storage...');
+        var st = window.sessionStorage;
+        var json = {};
+
+        for (var prop in st) {
+          if (prop.startsWith(prefix)) {
+            json[prop.substring(9)] = st.getItem(prop);
+          }
+        }
+
+        return json;
+      }
+    };
+  })();
+
+  function getRandomUrl(season) {
     var list = ['winter', 'spring', 'summer', 'fall'];
     var num = Math.floor(Math.random() * 3) + 1;
     var mobile = '';
 
-    if (window.innerWidth < 768) {
-      mobile = 'm';
-    }
-
-    if (seasson === undefined) {
+    if (season === undefined) {
       var index = Math.floor(Math.random() * 4);
-      seasson = list[index];
+      season = list[index];
     }
 
-    return 'img/' + seasson + '-0' + num + mobile + '.jpg';
+    return 'img/' + season + '-0' + num + ((window.innerWidth < 768) ? 'm' : '') + '.jpg';
   }
 
   function selectBackground(temp) {
-    var seasson = '';
+    var season = '';
 
     if (temp < 5) {
-      seasson = 'winter';
+      season = 'winter';
     } else if (temp < 15) {
-      seasson = 'fall';
+      season = 'fall';
     } else if (temp < 25) {
-      seasson = 'spring';
+      season = 'spring';
     } else {
-      seasson = 'summer';
+      season = 'summer';
     }
 
-    return getRandomUrl(seasson);
+    return getRandomUrl(season);
   }
 
   function getWeather() {
@@ -129,7 +184,7 @@ $(function() {
         var last = 0,
             now = Date.now();
 
-        if (storageAvailable('sessionStorage')) {
+        if (storage.isAvailable('sessionStorage')) {
           last = window.sessionStorage.getItem('fccLocal.now');
         }
 
@@ -144,7 +199,7 @@ $(function() {
 
           // get weather json API data
           $.getJSON(url, function(data) {
-            console.log('Get json');
+            console.log('Querying API...');
 
             json.now = Date.now();
             json.lat = position.coords.latitude;
@@ -165,8 +220,8 @@ $(function() {
             json.text = data.current.condition.text;
             json.is_day = data.current.is_day;
 
-            if (storageAvailable('sessionStorage')) {
-              saveWeather(json);
+            if (storage.isAvailable('sessionStorage')) {
+              storage.save(json);
             }
 
             resolve(json);
@@ -178,7 +233,7 @@ $(function() {
 
         } else {
           // get session storage
-          json = loadWeather();
+          json = storage.load();
           resolve(json);
         }
       }
@@ -189,56 +244,5 @@ $(function() {
         reject('Wasn\'t possible get the geographic possition now.');
       }
     });
-  }
-
-  function storageAvailable(type) {
-    var storage,
-      x = '__storage_test__';
-
-    try {
-      storage = window[type];
-      storage.setItem(x, x);
-      storage.removeItem(x);
-
-      return true;
-
-    } catch (e) {
-
-      return e instanceof DOMException && (
-        // everything except Firefox
-        e.code === 22 ||
-        // Firefox
-        e.code === 1014 ||
-        // test name field too, because code might not be present
-        // everything except Firefox
-        e.name === 'QuotaExceededError' ||
-        // Firefox
-        e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
-        // acknowledge QuotaExceededError only if there's something already stored
-        storage.length !== 0;
-    }
-  }
-
-  function saveWeather(json) {
-    console.log('Save session storage');
-    var storage = window.sessionStorage;
-
-    for (var prop in json) {
-      storage.setItem('fccLocal.' + prop, json[prop]);
-    }
-  }
-
-  function loadWeather() {
-    console.log('Load session storage');
-    var storage = window.sessionStorage;
-    var json = {};
-
-    for (var prop in storage) {
-      if (prop.startsWith('fccLocal.')) {
-        json[prop.substring(9)] = storage.getItem(prop);
-      }
-    }
-
-    return json;
   }
 });
