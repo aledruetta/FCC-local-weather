@@ -74,13 +74,18 @@ $(function() {
   function getRandomUrl(seasson) {
     var list = ['winter', 'spring', 'summer', 'fall'];
     var num = Math.floor(Math.random() * 3) + 1;
+    var mobile = '';
+
+    if (window.innerWidth < 768) {
+      mobile = 'm';
+    }
 
     if (seasson === undefined) {
       var index = Math.floor(Math.random() * 4);
       seasson = list[index];
     }
 
-    return 'img/' + seasson + '-0' + num + '.jpg';
+    return 'img/' + seasson + '-0' + num + mobile + '.jpg';
   }
 
   function selectBackground(temp) {
