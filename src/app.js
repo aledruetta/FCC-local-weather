@@ -30,7 +30,7 @@ $(function() {
     };
 
     weatherPromise.then(function(json) {
-      console.log(JSON.stringify(json));
+      console.dir(json);
 
       weather = json;
       self.backgroundUrl(selectBackground(weather.temp_c));
@@ -134,7 +134,7 @@ $(function() {
 
           // get weather json API data
           $.getJSON(url, function(data) {
-            console.log(data);
+            console.log('Get json');
 
             json.now = Date.now();
             json.lat = position.coords.latitude;
@@ -151,8 +151,8 @@ $(function() {
             json.wind_kph = data.current.wind_kph;
             json.wind_dir = data.current.wind_dir;
             json.clouds = data.current.cloud;
-            json.conditionCode = data.current.condition.code;
-            json.conditionText = data.current.condition.text;
+            json.code = data.current.condition.code;
+            json.text = data.current.condition.text;
             json.is_day = data.current.is_day;
 
             if (storageAvailable('sessionStorage')) {
@@ -182,13 +182,18 @@ $(function() {
   }
 
   function storageAvailable(type) {
+    var storage,
+      x = '__storage_test__';
+
     try {
-      var storage = window[type],
-        x = '__storage_test__';
-        storage.setItem(x, x);
-        storage.removeItem(x);
-        return true;
+      storage = window[type];
+      storage.setItem(x, x);
+      storage.removeItem(x);
+
+      return true;
+
     } catch (e) {
+
       return e instanceof DOMException && (
         // everything except Firefox
         e.code === 22 ||
