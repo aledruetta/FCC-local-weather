@@ -11,7 +11,8 @@ $(function() {
     var weatherPromise = getWeather();
 
     // Observables
-    this.backgroundUrl = ko.observable(getRandomUrl());
+    this.backUrl = ko.observable(getRandomUrl());
+    this.frontUrl = ko.observable('');
     this.weatherIcon = ko.observable('wi wi-day-cloudy-gusts');
     this.cityName = ko.observable('City');
     this.detailsPosition = ko.observable('Region, Country');
@@ -29,11 +30,16 @@ $(function() {
       }
     };
 
+    this.toggleBackground = function() {
+      self.backUrl(self.backUrl() === '' ? selectBackground(self.temp()) : '');
+      self.frontUrl(self.frontUrl() === '' ? selectBackground(self.temp()) : '');
+    };
+
     weatherPromise.then(function(json) {
       console.dir(json);
 
       weather = json;
-      self.backgroundUrl(selectBackground(weather.temp_c));
+      self.toggleBackground();
       self.cityName(weather.city);
       self.detailsPosition(weather.region + ', ' + weather.country);
 
