@@ -29,31 +29,31 @@
   </head>
   <body>
 
-    <main class="container-fluid">
-      <div class="row main-row">
-        <div class="col-xs-12 main-col">
+    <main class="container-fluid main">
+      <div class="row main__row">
+        <div class="col-xs-12 main__col">
 
-          <div class="wallpaper wallpaper-back"></div>
-          <div class="wallpaper wallpaper-front"></div>
+          <div class="wallpaper wallpaper--back"></div>
+          <div class="wallpaper wallpaper--front"></div>
           <div class="weather-shadow"></div>
           <div class="weather-wrapper">
-            <div class="grow">
+            <div class="weather-grow">
               <div class="weather-header">
 
-                <div class="weather-icon">
+                <div class="weather-header__icon">
                   <i data-bind="attr: { class: weatherIcon }"></i>
                 </div>
 
-                <div class="weather-push-right">
+                <div class="weather-header__push-right">
 
                   <div class="weather-location">
                     <div id="location" data-bind="text: cityName"></div>
-                    <div class="weather-location-details" id="location-details"
+                    <div class="weather-location__details" id="location-details"
                       data-bind="text: detailsPosition"></div>
                   </div>
 
                   <div class="weather-temp">
-                    <div class="weather-temp-inner">
+                    <div class="weather-temp__inner">
                       <i class="wi wi-thermometer"></i>
                       <span id="temp" data-bind="text: temp"></span>
                       <i data-bind="css: unit() == 'celsius' ? 'wi wi-celsius' : 'wi wi-fahrenheit'"></i>
@@ -64,13 +64,13 @@
               </div>
             </div>
 
-            <div class="switch-unit text-center">
+            <div class="switch text-center">
               <div class="btn-group" role="group" aria-label="...">
-                <button type="button" class="btn btn-default"
+                <button type="button" class="btn btn-default switch__button"
                   data-bind="click: toggleUnit, css: { active: unit() == 'celsius' }">
                   <i class="wi wi-celsius"></i>
                 </button>
-                <button type="button" class="btn btn-default"
+                <button type="button" class="btn btn-default switch__button"
                   data-bind="click: toggleUnit, css: { active: unit() == 'fahrenheit' }">
                   <i class="wi wi-fahrenheit"></i>
                 </button>

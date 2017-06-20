@@ -7,8 +7,8 @@ $(function() {
 
   // ViewModel
   var AppViewModel = function() {
-    var self = this;
-    var weatherPromise = getWeather();
+    var self = this,
+        weatherPromise;
 
     // Observables
     this.weatherIcon = ko.observable('wi wi-day-cloudy-gusts');
@@ -29,9 +29,9 @@ $(function() {
       }
     };
 
-    this.toggleBackground = function() {
-      var $back = $('.wallpaper-back');
-      var $front = $('.wallpaper-front');
+    this.toggleBackground = function(cb) {
+      var $back = $('.wallpaper--back');
+      var $front = $('.wallpaper--front');
 
       if ($front.css('display') === 'block') {
         fade($back, $front);
@@ -46,11 +46,14 @@ $(function() {
         }
         $in.fadeIn(800, function() {
           $out.fadeOut(800);
+          if (cb) {
+            cb();
+          }
         });
-
       }
     };
 
+    weatherPromise = getWeather();
     weatherPromise.then(function(json) {
       weather = json;
       console.dir(weather);
@@ -63,10 +66,15 @@ $(function() {
       } else {
         self.temp(weather.temp_f);
       }
+
       self.toggleBackground();
+
     }).catch(function(reason) {
-      alert(reason);
+      self.toggleBackground(function() {
+        alert(reason);
+      });
     });
+
   };
 
   // Applying ViewModel bindings
@@ -162,7 +170,6 @@ $(function() {
   function getWeather() {
     return new Promise(function(resolve, reject) {
       if ('geolocation' in navigator) {
-
         console.log('Gelocation enabled.');
 
         // getCurrentPosition options

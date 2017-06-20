@@ -5,14 +5,14 @@ main {
   font-family: 'Nunito', sans-serif;
 }
 
-.main-row,
-.main-col {
+.main__row {
   background-color: black;
   height: 100%;
 }
 
-.main-col {
+.main__col {
   position: relative;
+  height: 100%;
 }
 
 .wallpaper {
@@ -25,7 +25,7 @@ main {
   background-size: cover;
 }
 
-.wallpaper-back {
+.wallpaper--back {
   display: none;
 }
 
@@ -49,7 +49,7 @@ main {
   padding: 2em 1em;
 }
 
-.grow {
+.weather-grow {
   flex-grow: 1;
 }
 
@@ -60,12 +60,12 @@ main {
   width: 100%;
 }
 
-.weather-icon {
+.weather-header__icon {
   font-size: 5em;
   margin: 0 auto;
 }
 
-.weather-push-right {
+.weather-header__push-right {
   margin: 0 auto;
 }
 
@@ -73,18 +73,23 @@ main {
   font-size: 2em;
 }
 
-.weather-location-details {
+.weather-location__details {
   position: relative;
   top: -0.5em;
   font-size: 0.5em;
 }
 
 .weather-temp {
+  display: flex;
   font-size: 2em;
   margin-top: 0.5em;
 }
 
-.btn-group button {
+.weather-temp__inner {
+  margin: 0 auto;
+}
+
+.switch__button {
   font-size: 1.8em;
   font-weight: bold;
   width: 1.8em;
@@ -92,7 +97,7 @@ main {
   border-radius: 50%;
 }
 
-.btn-group .active {
+.switch__button.active {
   background-color: #333;
   color: white;
 }
@@ -109,6 +114,7 @@ main {
     font-size: 6em;
   }
   .weather-temp {
+    display: block;
     font-size: 2.2em;
   }
 }
