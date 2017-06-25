@@ -54,7 +54,8 @@ $(function() {
     };
 
     weatherPromise = getWeather();
-    weatherPromise.then(function(weather) {
+    weatherPromise.then(function(json) {
+      weather = json;
       console.dir(weather);
 
       self.cityName(weather.city);
