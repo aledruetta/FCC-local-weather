@@ -54,8 +54,7 @@ $(function() {
     };
 
     weatherPromise = getWeather();
-    weatherPromise.then(function(json) {
-      weather = json;
+    weatherPromise.then(function(weather) {
       console.dir(weather);
 
       self.cityName(weather.city);
@@ -65,6 +64,18 @@ $(function() {
         self.temp(weather.temp_c);
       } else {
         self.temp(weather.temp_f);
+      }
+
+      function weatherByCode(item) {
+        return item.code == weather.code;
+      }
+
+      var conditionObj = conditions.find(weatherByCode);
+
+      if (weather.is_day === '1') {
+        self.weatherIcon('wi wi-day-' + conditionObj.icon[0]);
+      } else {
+        self.weatherIcon('wi wi-night-' + conditionObj.icon[1]);
       }
 
       self.toggleBackground();
@@ -225,6 +236,7 @@ $(function() {
             json.clouds = data.current.cloud;
             json.code = data.current.condition.code;
             json.text = data.current.condition.text;
+            json.icon = data.current.condition.icon;
             json.is_day = data.current.is_day;
 
             if (storage.isAvailable('sessionStorage')) {
