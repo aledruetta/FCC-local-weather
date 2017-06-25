@@ -61,6 +61,8 @@ main {
 }
 
 .weather-header__icon {
+  display: flex;
+  align-items: center;
   font-size: 5em;
   margin: 0 auto;
 }
@@ -71,6 +73,8 @@ main {
 
 .weather-location {
   font-size: 2em;
+  text-align: center;
+  margin-top: 0.5em;
 }
 
 .weather-location__details {
@@ -110,8 +114,12 @@ main {
 }
 
 @media screen and (min-width: 768px) {
-  .weather-icon {
+  .weather-header__icon {
     font-size: 6em;
+  }
+  .weather-location {
+    text-align: left;
+    margin-top: 0;
   }
   .weather-temp {
     display: block;
