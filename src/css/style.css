@@ -58,13 +58,16 @@ main {
   flex-wrap: wrap;
   flex-grow: 1;
   width: 100%;
+  max-width: 325px;
+  margin: 0 auto;
 }
 
 .weather-header__icon {
   display: flex;
   align-items: center;
-  font-size: 5em;
+  font-size: 6em;
   margin: 0 auto;
+  padding: 1rem;
 }
 
 .weather-header__push-right {
@@ -108,7 +111,7 @@ main {
 
 @media screen and (min-width: 768px) {
   .weather-header__icon {
-    font-size: 6em;
+    font-size: 6.5em;
   }
   .weather-location {
     text-align: left;
@@ -126,6 +129,6 @@ main {
     width: 37%;
   }
   .weather-header__icon {
-    font-size: 7em;
+    font-size: 8em;
   }
 }
