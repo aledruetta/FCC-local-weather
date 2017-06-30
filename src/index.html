@@ -67,11 +67,11 @@
             <div class="switch text-center">
               <div class="btn-group" role="group" aria-label="...">
                 <button type="button" class="btn btn-default switch__button"
-                  data-bind="click: toggleUnit, css: { active: unit() == 'celsius' }">
+                  data-bind="click: toggleUnit.bind($data, 'celsius'), css: { active: unit() == 'celsius' }">
                   <i class="wi wi-celsius"></i>
                 </button>
                 <button type="button" class="btn btn-default switch__button"
-                  data-bind="click: toggleUnit, css: { active: unit() == 'fahrenheit' }">
+                  data-bind="click: toggleUnit.bind($data, 'fahrenheit'), css: { active: unit() == 'fahrenheit' }">
                   <i class="wi wi-fahrenheit"></i>
                 </button>
               </div>

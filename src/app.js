@@ -18,14 +18,14 @@ $(function() {
     this.unit = ko.observable('celsius');
 
     // Switching celsius/fahrenheit
-    this.toggleUnit = function() {
-      this.toggleBackground();
-      if (this.unit() === 'celsius') {
-        this.unit('fahrenheit');
-        this.temp(weather.temp_f);
-      } else {
-        this.unit('celsius');
-        this.temp(weather.temp_c);
+    this.toggleUnit = function(btn) {
+      self.toggleBackground();
+      if (self.unit() === 'fahrenheit' && btn === 'celsius') {
+        self.unit('celsius');
+        self.temp(weather.temp_c);
+      } else if (self.unit() === 'celsius' && btn === 'fahrenheit') {
+        self.unit('fahrenheit');
+        self.temp(weather.temp_f);
       }
     };
 
