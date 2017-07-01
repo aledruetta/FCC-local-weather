@@ -55,7 +55,7 @@ main {
       -ms-flex-direction: column;
           flex-direction: column;
   color: white;
-  padding: 2em 1em;
+  padding: 3em 1em;
 }
 
 .weather-grow {
@@ -67,31 +67,13 @@ main {
 }
 
 .weather-header {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  -webkit-box-flex: 1;
-     -moz-box-flex: 1;
-      -ms-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
   width: 100%;
   max-width: 325px;
   margin: 0 auto;
 }
 
 .weather-header__icon {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-     -moz-box-align: center;
-      -ms-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  font-size: 6em;
+  font-size: 5em;
   margin: 0 auto;
   padding: 1rem;
 }
@@ -138,7 +120,25 @@ main {
   color: white;
 }
 
+@media screen and (min-width: 576px) {
+  .weather-header__icon {
+    font-size: 6em;
+  }
+}
+
 @media screen and (min-width: 768px) {
+  .weather-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-flex: 1;
+       -moz-box-flex: 1;
+        -ms-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+  }
   .weather-header__icon {
     font-size: 6.5em;
   }
@@ -158,6 +158,6 @@ main {
     width: 37%;
   }
   .weather-header__icon {
-    font-size: 8em;
+    font-size: 7em;
   }
 }
