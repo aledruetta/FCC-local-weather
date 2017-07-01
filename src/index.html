@@ -46,17 +46,19 @@
 
                 <div class="weather-header__push-right">
 
-                  <div class="weather-location">
-                    <div id="location" data-bind="text: cityName"></div>
-                    <div class="weather-location__details" id="location-details"
+                  <div class="vertical-center">
+                    <div class="weather-location">
+                      <div id="location" data-bind="text: cityName"></div>
+                      <div class="weather-location__details" id="location-details"
                       data-bind="text: detailsPosition"></div>
-                  </div>
+                    </div>
 
-                  <div class="weather-temp">
-                    <div class="weather-temp__inner">
-                      <i class="wi wi-thermometer"></i>
-                      <span id="temp" data-bind="text: temp"></span>
-                      <i data-bind="css: unit() == 'celsius' ? 'wi wi-celsius' : 'wi wi-fahrenheit'"></i>
+                    <div class="weather-temp">
+                      <div class="weather-temp__inner">
+                        <i class="wi wi-thermometer"></i>
+                        <span id="temp" data-bind="text: temp"></span>
+                        <i data-bind="css: unit() == 'celsius' ? 'wi wi-celsius' : 'wi wi-fahrenheit'"></i>
+                      </div>
                     </div>
                   </div>
 
